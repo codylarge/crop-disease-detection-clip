@@ -15,7 +15,7 @@ CLIENT = InferenceHTTPClient(
 
 MODEL_ID = "dog-and-cats/1" 
 
-st.title("RoboFlow Model Demo")
+st.title("Cat & Dog Model")
 st.write("Upload an image to run inference with the RoboFlow model.")
 
 # Image uploader
