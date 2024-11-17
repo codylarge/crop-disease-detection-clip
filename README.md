@@ -1,4 +1,4 @@
-# [![Open in Streamlit](https://blank-app-gbt63nzs5ej.streamlit.app/)
+# [Open in Streamlit](https://blank-app-gbt63nzs5ej.streamlit.app/)
 
 ### How to run it on your own machine
 
