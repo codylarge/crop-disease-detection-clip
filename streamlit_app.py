@@ -1,12 +1,8 @@
 import streamlit as st
 from inference_sdk import InferenceHTTPClient
 from PIL import Image
-from dotenv import load_dotenv
-import os
 
-# Get API key from .env
-load_dotenv()
-KEY = os.getenv("ROBOFLOW_API_KEY")
+KEY = st.secrets["roboFlow"]["api_key"] # API key from secrets
 
 CLIENT = InferenceHTTPClient(
     api_url="https://detect.roboflow.com",
