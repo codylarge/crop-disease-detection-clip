@@ -28,6 +28,21 @@ if uploaded_file is not None:
     st.write("Running inference...")
     result = CLIENT.infer(temp_path, model_id=MODEL_ID)
 
-    # Display prediction results
-    st.write("Inference Results:")
-    st.json(result)
+
+    st.write("Detection Results:")
+
+    if "predictions" in result:
+        simplified_results = [
+            {
+                "class": pred["class"],
+                "confidence": pred["confidence"]
+            }
+            for pred in result["predictions"]
+        ]
+        st.json(simplified_results)
+    else:
+        st.write("No predictions found.")
+
+
+
+    #st.json(result)
