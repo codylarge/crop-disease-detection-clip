@@ -12,7 +12,7 @@ CLIENT = InferenceHTTPClient(
 MODEL_ID = "dog-and-cats/1" 
 
 st.title("CLIP Crop Detection")
-st.write("Upload an image to run inference with the RoboFlow model.")
+st.write("Upload image for classification")
 
 # Image uploader
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
