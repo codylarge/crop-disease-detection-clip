@@ -1,43 +1,14 @@
 import streamlit as st
-import clip
-import torch
 from PIL import Image
 import numpy as np
-
-# Cache to only load model once
-@st.cache_resource
-def load_clip_model(device):
-    model, preprocess = clip.load("ViT-B/32", device=device)
-    return model, preprocess
-
-def get_text_features(captions, device, model):
-    text_tokens = clip.tokenize(captions).to(device)
-    with torch.no_grad():
-        text_features = model.encode_text(text_tokens)
-    return text_features
-
-def get_image_features(image, device, model, preprocess):
-    image_input = preprocess(image).unsqueeze(0).to(device)  # Preprocess image and move to device
-    with torch.no_grad():
-        image_features = model.encode_image(image_input)  # Get image features
-    return image_features
-
-def compute_similarity(image_features, text_features):
-    # Normalize the features to unit vectors
-    image_features /= image_features.norm(dim=-1, keepdim=True)
-    text_features /= text_features.norm(dim=-1, keepdim=True)
-    
-    similarity = (image_features @ text_features.T).squeeze(0) # Cosine Similarity (Dot Product)
-    return similarity
+from clip_utils import load_clip_model, get_text_features, get_image_features, compute_similarity
+from classes import get_candidate_captions
 
 def main():
     st.title("CLIP Model with Streamlit")
     
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    model, preprocess = load_clip_model(device)  # Load the model once, outside the cache
-
-    class_names = ["corn", "apple", "soybeans", "tomato", "strawberry", "orange", "grapes", "watermelon", "banana", "peach"]
-    candidate_captions = [f"A picture of {cls}" for cls in class_names]
+    model, preprocess, device = load_clip_model()  # Load the model once, outside the cache
+    candidate_captions = get_candidate_captions()
 
     # Upload image
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
@@ -45,17 +16,20 @@ def main():
         image = Image.open(uploaded_file)  # Upload and show image
         st.image(image, caption="Uploaded Image", use_container_width=True)
         
+        # Get features for captions and image then compute similarities
         text_features = get_text_features(candidate_captions, device, model)
-
         image_features = get_image_features(image, device, model, preprocess)
-
         similarities = compute_similarity(image_features, text_features)
         
-        # Find the best matching class based on cosine similarity
-        best_match_idx = np.argmax(similarities.cpu().numpy())
-        best_caption = candidate_captions[best_match_idx]
-        confidence = similarities[best_match_idx].item() * 100 # Confidence as percentage
+        # Get the top 3 most similar captions (for debugging)
+        top_indices = np.argsort(similarities.cpu().numpy())[::-1][:3] 
+        top_captions = [candidate_captions[idx] for idx in top_indices]
+        top_confidences = [similarities[idx].item() * 100 for idx in top_indices]  # Convert to percentage
+
+        best_caption = top_captions[0]
+        confidence = top_confidences[0]
         st.write(f"Predicted: {best_caption} with confidence: {confidence:.1f}%")
+
 
 if __name__ == "__main__":
     main()
