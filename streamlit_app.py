@@ -11,7 +11,7 @@ CLIENT = InferenceHTTPClient(
 
 MODEL_ID = "dog-and-cats/1" 
 
-st.title("CLIP Crop Detection")
+st.title("CLIP Detection Model")
 st.write("Upload image for classification")
 
 # Image uploader
