@@ -9,12 +9,14 @@ def load_clip_model():
     model, preprocess = clip.load("ViT-B/32", device=device)
     return model, preprocess, device
 
+# Return vector embeddings for given text (caption)
 def get_text_features(captions, device, model):
     text_tokens = clip.tokenize(captions).to(device)
     with torch.no_grad():
         text_features = model.encode_text(text_tokens)
     return text_features
 
+# Return vector embeddings for given image
 def get_image_features(image, device, model, preprocess):
     image_input = preprocess(image).unsqueeze(0).to(device)  # Preprocess image and move to device
     with torch.no_grad():
