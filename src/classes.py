@@ -1,16 +1,10 @@
 classes = [
     "corn", "wheat", "rice", "soybeans", "barley", "oats", "cotton", 
-    "potato", "tomato", "sunflower", "canola", "guava", 
-    "orange", "apple", "banana", "grapes", "pineapple", "papaya", 
-    "peach", "watermelon", "strawberry", "blueberry", "kiwi", "melon", 
-    "cucumber", "lettuce", "carrot", "spinach", "chili pepper", "pumpkin"
+    "watermelon", "tomato", "carrot", "pineapple", "peach",  "sunflower"
 ]
 
 disease_classes = [
-    "blight", "rust", "powdery mildew", "downy mildew", "aphids", "fusarium wilt", 
-    "leaf spot", "bacterial wilt", "early blight", "late blight", "aphid infestation", 
-    "damping off", "verticillium wilt", "corn smut", "tomato mosaic virus", 
-    "black rot", "clubroot", "stem canker", "flooding damage", "gray mold"
+    "blight", "rust", "powdery mildew", "downy mildew", "aphids", "leaf spot",
 ]
 
 def get_candidate_captions():
