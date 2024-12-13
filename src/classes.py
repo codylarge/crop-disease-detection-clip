@@ -1,6 +1,5 @@
 classes = [
-    "corn", "wheat", "rice", "soybeans", "barley", "oats", "cotton", 
-    "watermelon", "tomato", "carrot", "pineapple", "peach",  "sunflower"
+    "corn", "wheat", "rice", "cotton", "watermelon", "tomato", "carrot", "pineapple", "peach",  "sunflower"
 ]
 
 disease_classes = [
@@ -8,6 +7,6 @@ disease_classes = [
 ]
 
 def get_candidate_captions():
-    candidate_captions = [f"A picture of {cls}" for cls in classes]
+    candidate_captions = [f"{cls}" for cls in classes]
     candidate_captions.extend([f"Disease {cls}" for cls in disease_classes])
     return candidate_captions

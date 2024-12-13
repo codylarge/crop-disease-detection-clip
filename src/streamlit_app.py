@@ -5,7 +5,7 @@ from clip_utils import load_clip_model, get_text_features, get_image_features, c
 from classes import get_candidate_captions
 
 def main():
-    st.title("CLIP Crop Detection")
+    st.title("CLIP Crop & Disease Detection")
     
     model, preprocess, device = load_clip_model()  # Load the model once, outside the cache
     candidate_captions = get_candidate_captions()
