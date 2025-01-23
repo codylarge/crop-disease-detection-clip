@@ -25,3 +25,9 @@ def get_candidate_captions():
     candidate_captions = [f"{cls}: {desc}" for cls, desc in classes.items()]
     candidate_captions.extend([f"Disease {cls}: {desc}" for cls, desc in disease_classes.items()])
     return candidate_captions
+
+def get_candidate_classes():
+    """Get the list of candidate classes."""
+    candidate_classes = list(classes.keys())
+    candidate_classes.extend(list(disease_classes.keys()))
+    return candidate_classes
