@@ -6,10 +6,6 @@ from src.clip_utils import load_clip_model, get_text_features, get_image_feature
 from src.llama_utils import process_user_input, process_hidden_prompt, process_silent_instruction
 from src.classes import get_candidate_captions
 
-from groq import Groq
-
-client = Groq()
-
 def main():
     st.title("CLIP Crop & Disease Detection")
 

@@ -1,6 +1,5 @@
 from groq import Groq
 import os
-from groq import Groq
 # $env:GROQ_API_KEY="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" (Powershell)
 
 os.environ["GROQ_API_KEY"] = "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"
