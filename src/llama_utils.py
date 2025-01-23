@@ -49,7 +49,6 @@ def process_hidden_prompt(st, hidden_prompt):
 
     # Add response to chat history and show it to the user
     st.session_state.chat_history.append({"role": "assistant", "content": assistant_response})
-    print("Chat history after added hidden prompt: ", st.session_state.chat_history)
     #with st.chat_message("assistant"):
     #    st.markdown(assistant_response)
 

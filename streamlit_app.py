@@ -2,9 +2,9 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 
-from clip_utils import load_clip_model, get_text_features, get_image_features, compute_similarity
-from llama_utils import process_user_input, process_hidden_prompt, process_silent_instruction
-from classes import get_candidate_captions
+from src.clip_utils import load_clip_model, get_text_features, get_image_features, compute_similarity
+from src.llama_utils import process_user_input, process_hidden_prompt, process_silent_instruction
+from src.classes import get_candidate_captions
 
 from groq import Groq
 
