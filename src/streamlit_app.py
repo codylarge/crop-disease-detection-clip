@@ -37,15 +37,17 @@ def main():
         top_confidences = [similarities[idx].item() * 100 for idx in top_indices]  # Convert to percentage
         
         best_caption = top_captions[0]
+        best_class = best_caption.split(":")[0]
         confidence = top_confidences[0]
-        #st.write(f"Predicted: {best_caption} with confidence: {confidence:.1f}%")
-        
-        print(st.session_state.chat_history)
-        print("Length of chat history: ", len(st.session_state.chat_history))
-        # Display the hidden prompt only once after a new image upload
+
+        # Prompt LLM for description of image
         if len(st.session_state.chat_history) == 0:
-            process_hidden_prompt(st, "Please say 'this is a picture of " + best_caption + " and then describe it in one sentence.") 
-            # SAVE TO SESSION HISTORY
+            #print("Best caption: ", best_caption)
+            prompt = (
+                f"You have been provided a picture of a {best_caption}."
+                f"You should say what it is, and be open to answering questions about it."
+            )
+            process_hidden_prompt(st, prompt)
 
     # Display chat history
     for message in st.session_state.chat_history:
