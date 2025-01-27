@@ -40,10 +40,11 @@ def main():
 
         # Prompt LLM for description of image
         if len(st.session_state.chat_history) == 0:
-            st.write("Best caption: ", best_caption, "Confidence: ", confidence)
+            # st.write("Best caption: ", best_caption, "Confidence: ", confidence)
             prompt = (
                 f"You have been provided a picture of a {best_caption}."
                 f"You should say what it is, and be open to answering questions about it."
+                f"Avoid mentioning that you have been provided a description"
             )
             process_hidden_prompt(st, prompt)
 
