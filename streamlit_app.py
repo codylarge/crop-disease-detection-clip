@@ -2,11 +2,12 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 
-from src.clip_utils import load_clip_model, get_text_features, get_image_features, compute_similarity
+from src.clip_utils import load_clip_model, get_text_features, get_image_features, compute_similarity, load_custom_clip_model
 from src.llama_utils import process_user_input, process_hidden_prompt, process_silent_instruction
 from src.classes import get_candidate_captions
 
 def main():
+    clip_file_path = "clip_finetuned(orange_long).pth"
     st.title("CLIP Crop & Disease Detection")
 
     # Initialize session state variables
@@ -14,7 +15,8 @@ def main():
         st.session_state.chat_history = []
             
     # Upload image
-    model, preprocess, device = load_clip_model()  # Load the model once, outside the cache
+    model, preprocess, device = load_clip_model()  # Load base model
+    #model, preprocess, device = load_custom_clip_model(clip_file_path) # Load finetuned model
     candidate_captions = get_candidate_captions()
     
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
@@ -38,7 +40,7 @@ def main():
 
         # Prompt LLM for description of image
         if len(st.session_state.chat_history) == 0:
-            #print("Best caption: ", best_caption)
+            st.write("Best caption: ", best_caption, "Confidence: ", confidence)
             prompt = (
                 f"You have been provided a picture of a {best_caption}."
                 f"You should say what it is, and be open to answering questions about it."

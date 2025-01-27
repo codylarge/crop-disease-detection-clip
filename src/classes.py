@@ -1,4 +1,14 @@
 classes = {
+    "bad_orange": "Oranges with poor quality showing visible blemishes, discoloration, cracks, fungal growth, and advanced spoilage. Fruits display signs of damage and decay, making them unsuitable for consumption or retail purposes",
+    "good_orange": "Fresh oranges with smooth green and yellow skin, minor blemishes, and clean surfaces. The fruits are ripe, of good quality, and suitable for consumption or retail purposes"
+}
+
+disease_classes = {
+    
+}
+
+'''
+classes = {
     "corn": "Corn is a tall plant with long, narrow green leaves and yellow or golden kernels arranged in rows on cobs. The kernels are surrounded by a husk.",
     "wheat": "Wheat is a grass-like plant with long, slender stems and clusters of small, tan or golden-colored grains at the top.",
     "rice": "Rice is a cereal plant with long, narrow green leaves and small, oval-shaped grains that turn golden as they ripen.",
@@ -19,15 +29,8 @@ disease_classes = {
     "aphids": "Aphids are tiny, soft-bodied insects that can be green, yellow, or black. They gather on the undersides of leaves and suck out plant sap.",
     "leaf spot": "Leaf spot is a plant disease that causes small, round, or irregular dark spots on the leaves, often surrounded by yellow halos."
 }
-
+'''
 def get_candidate_captions():
-    """Generate enriched candidate captions with names and descriptions."""
     candidate_captions = [f"{cls}: {desc}" for cls, desc in classes.items()]
     candidate_captions.extend([f"Disease {cls}: {desc}" for cls, desc in disease_classes.items()])
     return candidate_captions
-
-def get_candidate_classes():
-    """Get the list of candidate classes."""
-    candidate_classes = list(classes.keys())
-    candidate_classes.extend(list(disease_classes.keys()))
-    return candidate_classes
