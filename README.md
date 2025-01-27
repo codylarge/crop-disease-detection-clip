@@ -1,4 +1,4 @@
-# [Open in Streamlit](https://blank-app-gbt63nzs5ej.streamlit.app/)
+# [Open in Browser](https://clip-disease-detection.streamlit.app/)
 
 ### How to run it on your own machine
 
