@@ -3,7 +3,7 @@ from PIL import Image
 import numpy as np
 
 from src.clip_utils import load_clip_model, get_text_features, get_image_features, compute_similarity, load_custom_clip_model
-from src.llama_utils import process_user_input, process_hidden_prompt, process_silent_instruction
+from src.llama_utils import process_user_input, generate_clip_description, process_user_input_norag
 from src.classes import get_candidate_captions
 
 def main():
@@ -13,12 +13,20 @@ def main():
     # Initialize session state variables
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
-            
-    # Upload image
-    model, preprocess, device = load_clip_model()  # Load base model
-    #model, preprocess, device = load_custom_clip_model(clip_file_path) # Load finetuned model
-    candidate_captions = get_candidate_captions()
+
+    if "rag_enabled" not in st.session_state:
+        st.session_state.rag_enabled = True  # Default to RAG enabled
+
+    model, preprocess, device = load_clip_model()
     
+    candidate_captions = get_candidate_captions()
+
+    # RAG toggle
+    rag_enabled = st.session_state.rag_enabled
+    st.session_state.rag_enabled = st.toggle("RAG Enabled", rag_enabled)
+    print(f"RAG Enabled: {st.session_state.rag_enabled}")
+
+    # Upload image
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
     if uploaded_file is not None:
         image = Image.open(uploaded_file)  # Upload and show image
@@ -40,13 +48,7 @@ def main():
 
         # Prompt LLM for description of image
         if len(st.session_state.chat_history) == 0:
-            # st.write("Best caption: ", best_caption, "Confidence: ", confidence)
-            prompt = (
-                f"You have been provided a picture of a {best_caption}."
-                f"You should say what it is, and be open to answering questions about it."
-                f"Avoid mentioning that you have been provided a description"
-            )
-            process_hidden_prompt(st, prompt)
+            generate_clip_description(st, best_caption, confidence)
 
     # Display chat history
     for message in st.session_state.chat_history:
@@ -55,12 +57,15 @@ def main():
         elif message["role"] == "assistant":
             st.chat_message("assistant").write(message["content"])
 
-    # input field for users message:
+    # Input field for user's message:
     user_prompt = st.chat_input("Ask LLAMA...")
  
     if user_prompt:
         print("Text prompt")
-        process_user_input(st, user_prompt) 
+        if rag_enabled:
+            process_user_input(st, user_prompt)  # RAG enabled
+        else:
+            process_user_input_norag(st, user_prompt)  # No RAG
 
 if __name__ == "__main__":
-    main()  
+    main()
